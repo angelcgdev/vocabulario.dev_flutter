@@ -1,0 +1,83 @@
+{
+  "unknow_error": "Algo fue mal",
+  "login_page_title": "Iniciar Sesión",
+  "login_page_title_signinwithgoogle": "Continuar con google",
+  "login_page_form_email_label": "Correo",
+  "login_page_form_email_placeholder": "Ingresa tu correo",
+  "login_page_form_email_error_empty": "El correo es necesario",
+  "login_page_form_email_error_invalid": "El correo no es valido",
+  "login_page_form_password_label": "Contraseña",
+  "login_page_form_password_placeholder": "Ingresa tu contraseña",
+  "login_page_form_password_error_empty": "La contraseña es necesaria",
+  "login_page_forget_password": "¿Olvidaste tu contraseña?",
+  "login_page_sigin": "¿No tienes una cuenta aún? Registrate",
+  "sigin_page_title": "Registrarse",
+  "sigin_page_form_firstname_label": "Nombre",
+  "sigin_page_form_firstname_placeholder": "Ingresa tu Nombre",
+  "sigin_page_form_lastname_label": "Apellido",
+  "sigin_page_form_lastname_placeholder": "Ingresa tu apellido",
+  "sigin_page_form_email_label": "Correo",
+  "sigin_page_form_email_placeholder": "Ingresa tu correo",
+  "sigin_page_form_password_label": "Contraseña",
+  "sigin_page_form_password_placeholder": "Ingresa tu contraseña",
+  "sigin_page_form_passwordconfirmation_label": "Confirmar contraseña",
+  "sigin_page_form_passwordconfirmation_placeholder": "Ingresa tu contraseña nuevamente",
+  "sigin_page_form_continue_btn": "Continuar",
+  "home_page_tab_inicio_name": "Inicio",
+  "home_page_tab_inicio_btn_random": "Definición aleatoria",
+  "home_page_tab_inicio_empty": "No hay lecciones aún.",
+  "home_page_tab_inicio_retry": "Reintentar",
+  "home_page_tab_report_name": "Reporte",
+  "home_page_tab_report_title": "Reporte de definiciones",
+  "home_page_tab_report_description": "Usuarios que indicaron si las definiciones son correctas o incorrectas",
+  "home_page_tab_report_empty": "No hay reportes aún",
+  "home_page_tab_report_retry": "Reintentar",
+  "home_page_tab_report_value": "{result, select, true {Definición Correcta} false {Definición Incorrecta} other {Unknown}}",
+  "@home_page_reports_tab_report_value": {
+    "description": "value to represent a result from a report",
+    "placeholders": {
+      "result": {
+        "type": "String"
+      }
+    }
+  },
+  "home_page_reports_tab_report_date": "{date}",
+  "@home_page_reports_tab_report_date": {
+    "description": "A date to render in a Report",
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMMMd"
+      }
+    }
+  },
+  "home_page_tab_profile_name": "Perfil",
+  "home_page_tab_profile_change_avatar": "Cambiar avatar",
+  "home_page_tab_profile_label_name": "Nombre",
+  "home_page_tab_profile_label_email": "Correo",
+  "home_page_tab_profile_category_general": "General",
+  "home_page_tab_profile_category_general_change_password": "Cambiar contraseña",
+  "home_page_tab_profile_category_general_change_theme": "Cambiar tema",
+  "home_page_tab_profile_category_logout": "Cerrar sesión",
+  "theme_page_title": "Elige un tema",
+  "theme_page_options_title": "{theme, select, dark {Oscuro} light {Claro} other {Sistema} }",
+  "@theme_page_options_title_value": {
+    "description": "value to represent each option of system themes",
+    "placeholders": {
+      "theme": {
+        "type": "String"
+      }
+    }
+  },
+  "lesson_page_btn_continue": "Continuar",
+  "lesson_page_btn_input_placeholder": "Ingresa detalles sobre tu reporte",
+  "lesson_page_btn_report": "{report, select, true {Correct} false {Incorrecto} other {Unknown}}",
+  "@lesson_page_btn_report_value": {
+    "description": "value to represent correct or incorrect term on report",
+    "placeholders": {
+      "report": {
+        "type": "boolean"
+      }
+    }
+  }
+}

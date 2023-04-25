@@ -1,0 +1,84 @@
+{
+  "unknow_error": "Somethig went wrong",
+  "login_page_title": "Log In",
+  "login_page_title_signinwithgoogle": "Continue with google",
+  "login_page_form_email_label": "Email",
+  "login_page_form_email_placeholder": "Enter your email",
+  "login_page_form_email_error_empty": "Email is required",
+  "login_page_form_email_error_invalid": "Email entered is invalid",
+  "login_page_form_password_label": "Password",
+  "login_page_form_password_placeholder": "Enter your password",
+  "login_page_form_password_error_empty": "Password is required",
+  "login_page_forget_password": "Did you forget your password?",
+  "login_page_sigin": "Do not have an account yer? Register",
+  "sigin_page_title": "Sign In",
+  "sigin_page_form_firstname_label": "First Name",
+  "sigin_page_form_firstname_placeholder": "Enter your first name",
+  "sigin_page_form_lastname_label": "Last Name",
+  "sigin_page_form_lastname_placeholder": "Enter your last name",
+  "sigin_page_form_email_label": "Email",
+  "sigin_page_form_email_placeholder": "Enter your email",
+  "sigin_page_form_password_label": "Password",
+  "sigin_page_form_password_placeholder": "Enter your password",
+  "sigin_page_form_passwordconfirmation_label": "Confirm password",
+  "sigin_page_form_passwordconfirmation_placeholder": "Enter your password again",
+  "sigin_page_form_continue_btn": "Continue",
+  "home_page_tab_inicio_name": "Home",
+  "home_page_tab_inicio_btn_random": "Random definition",
+  "home_page_tab_inicio_empty": "There is not lessons yet",
+  "home_page_tab_inicio_retry": "Try again",
+  "home_page_tab_report_name": "Report",
+  "home_page_tab_report_description": "Users who indicated that the definitions are correct or incorrect",
+  "home_page_tab_report_title": "Definitions report",
+  "home_page_tab_report_empty": "There is not reports yet",
+  "home_page_tab_report_retry": "Try again",
+  "home_page_tab_report_value": "{result, select, true {Correct definition} false {Incorrect definition} other {Unknown}}",
+  "@home_page_tab_report_value": {
+    "description": "value to represent a result from a report",
+    "placeholders": {
+      "result": {
+        "type": "String"
+      }
+    }
+  },
+  "home_page_reports_tab_report_date": "{date}",
+  "@home_page_reports_tab_report_date": {
+    "description": "A date to render in a Report",
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMMMd"
+      }
+    }
+  },
+  "home_page_tab_profile_name": "Profile",
+  "home_page_tab_profile_change_avatar": "Change avatar",
+  "home_page_tab_profile_label_name": "Name",
+  "home_page_tab_profile_label_email": "Email",
+  "home_page_tab_profile_category_general": "General",
+  "home_page_tab_profile_category_general_change_password": "Change password",
+  "home_page_tab_profile_category_general_change_theme": "Change theme",
+  "home_page_tab_profile_category_logout": "Logout",
+  "theme_page_title": "Choose a theme",
+  "theme_page_options_title": "{theme, select, dark {Dark} light {Light} other {System}}",
+  "@theme_page_options_title_value": {
+    "description": "value to represent each option of system themes",
+    "placeholders": {
+      "theme": {
+        "type": "String"
+      }
+    }
+  },
+  "lesson_page_btn_continue": "Continue",
+  "lesson_page_btn_input_placeholder": "Enter details about your report",
+  "lesson_page_btn_report": "{report, select, true {Correct} false {Incorrect} other {Unknown}}",
+  "@lesson_page_btn_report_value": {
+    "description": "value to represent correct or incorrect term on report",
+    "placeholders": {
+      "report": {
+        "type": "boolean"
+      }
+    }
+  }
+
+}
