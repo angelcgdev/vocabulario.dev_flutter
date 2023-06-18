@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:vocabulario_dev/data/datasource/auth_api_reapository_impl.dart';
-import 'package:vocabulario_dev/data/datasource/reports_service_reapository_impl.dart';
-import 'package:vocabulario_dev/data/datasource/request_service_reapository_impl.dart';
-import 'package:vocabulario_dev/data/datasource/secure_storage_reapository_impl.dart';
-import 'package:vocabulario_dev/data/datasource/terms_api_reapository_impl.dart';
-import 'package:vocabulario_dev/data/datasource/userinfo_storage_reapository_impl.dart';
-import 'package:vocabulario_dev/domain/repository/auth_api_reapository.dart';
-import 'package:vocabulario_dev/domain/repository/reports_api_reapository.dart';
-import 'package:vocabulario_dev/domain/repository/request_service_reapository.dart';
-import 'package:vocabulario_dev/domain/repository/secure_storage_reapository.dart';
-import 'package:vocabulario_dev/domain/repository/terms_api_reapository.dart';
-import 'package:vocabulario_dev/domain/repository/userinfo_storage_reapository.dart';
+import 'package:vocabulario_dev/modules/auth/data/data_source/auth_api_reapository_impl.dart';
+import 'package:vocabulario_dev/modules/auth/presentation/widgets/with_presentation_dependecies.dart';
+import 'package:vocabulario_dev/modules/common/presentation/with_data_soure_dependencies.dart';
+import 'package:vocabulario_dev/modules/home/data/data_source/reports_service_reapository_impl.dart';
+import 'package:vocabulario_dev/modules/home/data/data_source/terms_api_reapository_impl.dart';
+import 'package:vocabulario_dev/modules/auth/data/data_source/userinfo_storage_reapository_impl.dart';
+import 'package:vocabulario_dev/modules/auth/domain/reapository/auth_api_reapository.dart';
+import 'package:vocabulario_dev/modules/home/domain/reapository/reports_api_reapository.dart';
+import 'package:vocabulario_dev/modules/common/domain/reapository/request_service_reapository.dart';
+import 'package:vocabulario_dev/modules/common/domain/reapository/secure_storage_reapository.dart';
+import 'package:vocabulario_dev/modules/home/domain/reapository/terms_api_reapository.dart';
+import 'package:vocabulario_dev/modules/auth/domain/reapository/userinfo_storage_reapository.dart';
 import 'package:vocabulario_dev/main_controller.dart';
-import 'package:vocabulario_dev/ui/pages/splash/splash_page.dart';
-import 'package:vocabulario_dev/ui/theme/theme.dart';
-import 'package:vocabulario_dev/ui/routes/routes.dart';
+import 'package:vocabulario_dev/modules/auth/presentation/pages/splash/splash_page.dart';
+import 'package:vocabulario_dev/modules/home/modules/theme/presentation/theme.dart';
+import 'package:vocabulario_dev/routes/routes.dart';
 
 void main() {
   runApp(const MainApp());
@@ -28,36 +28,14 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        Provider<RequestServiceRepositoryInterface>(
-          create: (_) => RequestServiceReapositoryImpl(),
-        ),
-        Provider<SecureStorageReapositoryInterface>(
-          create: (_) => SecureStorageReapositoryImpl(),
-        ),
-      ],
-      child: Builder(
-        builder: (context) {
-          return MultiProvider(
-            providers: [
-              Provider<AuthApiReapositoryInterface>(
-                create: (_) => AuthApiReapositoryImpl(
-                    requestService:
-                        context.read<RequestServiceRepositoryInterface>()),
-              ),
-              Provider<UserInfoStorageReapositoryInterface>(
-                create: (_) => UserInfoStorageReapositoryImpl(
-                    secureStorage:
-                        context.read<SecureStorageReapositoryInterface>()),
-              ),
-            ],
-            child: Builder(builder: (context) {
-              return Main.init(context);
-            }),
-          );
-        },
-      ),
+    return WithBasicDataSourceDependencies(
+      builder: (context) {
+        return WithPresentationDependencies(
+          builder: (context) {
+            return Main.init(context);
+          }
+        );
+      },
     );
   }
 }
@@ -123,11 +101,20 @@ class _MainState extends State<Main> {
       themeMode: controller.themeMode,
       home: const SplashPage(),
       builder: (context, child) {
+        final systemUiColorLight = SystemUiOverlayStyle.dark.copyWith(
+          statusBarColor: Colors.transparent,
+          systemNavigationBarColor: Colors.transparent
+        );
+        final systemUiColorDark = SystemUiOverlayStyle.light.copyWith(
+          statusBarColor: Colors.transparent,
+          systemNavigationBarColor: Colors.transparent
+        );
+        final brightness = Theme.of(context).brightness;
+        final systemUiColor = brightness==Brightness.dark?systemUiColorDark:systemUiColorLight;
         return AnnotatedRegion<SystemUiOverlayStyle>(
-            value: SystemUiOverlayStyle(
-                systemNavigationBarColor:
-                    Theme.of(context).colorScheme.background),
-            child: child!);
+            value: systemUiColor,
+            child: child!
+        );
       },
     );
   }

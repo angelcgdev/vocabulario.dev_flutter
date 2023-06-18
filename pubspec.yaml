@@ -21,6 +21,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  widgetbook: ^3.0.0-rc.1
 
 flutter:
   uses-material-design: true

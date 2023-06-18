@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:vocabulario_dev/domain/model/user.dart';
-import 'package:vocabulario_dev/domain/repository/auth_api_reapository.dart';
-import 'package:vocabulario_dev/domain/repository/userinfo_storage_reapository.dart';
-import 'package:vocabulario_dev/ui/routes/routes.dart';
+import 'package:vocabulario_dev/modules/auth/domain/model/user.dart';
+import 'package:vocabulario_dev/modules/auth/domain/reapository/auth_api_reapository.dart';
+import 'package:vocabulario_dev/modules/auth/domain/reapository/userinfo_storage_reapository.dart';
+import 'package:vocabulario_dev/routes/routes.dart';
 
 class MainController extends ChangeNotifier {
   final UserInfoStorageReapositoryInterface _userInfo;
