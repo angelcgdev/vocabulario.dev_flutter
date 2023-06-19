@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:vocabulario_dev/modules/auth/data/data_source/auth_api_reapository_impl.dart';
-import 'package:vocabulario_dev/modules/auth/presentation/widgets/with_presentation_dependecies.dart';
+import 'package:vocabulario_dev/modules/auth/aplication/login_bloc.dart';
+import 'package:vocabulario_dev/modules/auth/aplication/login_state.dart';
+import 'package:vocabulario_dev/modules/auth/presentation/widgets/with_auth_dependecies.dart';
 import 'package:vocabulario_dev/modules/common/presentation/with_data_soure_dependencies.dart';
 import 'package:vocabulario_dev/modules/home/data/data_source/reports_service_reapository_impl.dart';
 import 'package:vocabulario_dev/modules/home/data/data_source/terms_api_reapository_impl.dart';
@@ -30,7 +32,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return WithBasicDataSourceDependencies(
       builder: (context) {
-        return WithPresentationDependencies(
+        return WithAuthDependencies(
           builder: (context) {
             return Main.init(context);
           }
@@ -76,46 +78,40 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
-  void _init() async {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<MainController>().checkLogin();
-    });
-  }
-
-  @override
-  void initState() {
-    _init();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<MainController>();
-    return MaterialApp(
-      title: 'Vocabulario.dev',
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      theme: themeLight,
-      darkTheme: themeDark,
-      routes: routes(context, controller.allowPrivateRoutes),
-      themeMode: controller.themeMode,
-      home: const SplashPage(),
-      builder: (context, child) {
-        final systemUiColorLight = SystemUiOverlayStyle.dark.copyWith(
-          statusBarColor: Colors.transparent,
-          systemNavigationBarColor: Colors.transparent
+    return BlocBuilder<LoginBloc, LoginState>(
+      builder: (context, state) {
+        final isSessionChecked = state is LoginCheckSesionSuccess;
+        final sessionChecked = isSessionChecked ? state : null;
+        return MaterialApp(
+          title: 'Vocabulario.dev',
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          theme: themeLight,
+          darkTheme: themeDark,
+          routes: routes(context, sessionChecked?.user!=null),
+          themeMode: controller.themeMode,
+          home: const SplashPage(),
+          builder: (context, child) {
+            final systemUiColorLight = SystemUiOverlayStyle.dark.copyWith(
+              statusBarColor: Colors.transparent,
+              systemNavigationBarColor: Colors.transparent
+            );
+            final systemUiColorDark = SystemUiOverlayStyle.light.copyWith(
+              statusBarColor: Colors.transparent,
+              systemNavigationBarColor: Colors.transparent
+            );
+            final brightness = Theme.of(context).brightness;
+            final systemUiColor = brightness==Brightness.dark?systemUiColorDark:systemUiColorLight;
+            return AnnotatedRegion<SystemUiOverlayStyle>(
+                value: systemUiColor,
+                child: child!
+            );
+          },
         );
-        final systemUiColorDark = SystemUiOverlayStyle.light.copyWith(
-          statusBarColor: Colors.transparent,
-          systemNavigationBarColor: Colors.transparent
-        );
-        final brightness = Theme.of(context).brightness;
-        final systemUiColor = brightness==Brightness.dark?systemUiColorDark:systemUiColorLight;
-        return AnnotatedRegion<SystemUiOverlayStyle>(
-            value: systemUiColor,
-            child: child!
-        );
-      },
+      }
     );
   }
 }

@@ -7,7 +7,7 @@ class DefinitionReportPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(
-        title: Text('Definition Report'),
+        title: const Text('Definition Report'),
       ),
     );
   }

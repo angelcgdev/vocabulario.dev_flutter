@@ -6,8 +6,7 @@ import 'package:vocabulario_dev/modules/common/domain/response/response.dart';
 import 'package:vocabulario_dev/modules/common/domain/request/request.dart';
 import 'package:http/http.dart' as http;
 
-class RequestServiceReapositoryImpl
-    implements RequestServiceRepositoryInterface {
+class RequestServiceReapositoryImpl implements RequestServiceRepositoryInterface {
   @override
   Future<ResponseData> get(RequestData requestData) async {
     try {
@@ -23,7 +22,9 @@ class RequestServiceReapositoryImpl
         headers: headers,
       );
       return ResponseData<String>(
-          data: request.body, statusCode: request.statusCode);
+          data: request.body,
+          statusCode: request.statusCode,
+        );
     } catch (e) {
       debugPrint('$e');
       throw const RequestException('something went wrong');
@@ -50,5 +51,17 @@ class RequestServiceReapositoryImpl
     } catch (e) {
       throw const RequestException('something went wrong');
     }
+  }
+  
+  @override
+  Future<ResponseData> delete(RequestData requestData) {
+    // TODO: implement delete
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<ResponseData> put(RequestData requestData) {
+    // TODO: implement put
+    throw UnimplementedError();
   }
 }
