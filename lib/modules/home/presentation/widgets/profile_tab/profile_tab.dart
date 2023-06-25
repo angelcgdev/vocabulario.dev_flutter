@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:vocabulario_dev/modules/auth/aplication/auth_bloc.dart';
 import 'package:vocabulario_dev/modules/auth/domain/reapository/userinfo_storage_reapository.dart';
-import 'package:vocabulario_dev/main_controller.dart';
 import 'package:vocabulario_dev/modules/home/presentation/widgets/profile_tab/profile_tab_controller.dart';
-import 'package:vocabulario_dev/modules/auth/presentation/pages/login/login_page.dart';
 import 'package:vocabulario_dev/modules/home/modules/theme/presentation/pages/theme_page.dart';
 import 'package:vocabulario_dev/modules/home/modules/theme/presentation/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -119,12 +119,8 @@ class ProfileTab extends StatelessWidget {
                       const SizedBox(height: DefaultTheme.gap),
                       OutlinedButton(
                           onPressed: () async {
-                            final navigator = Navigator.of(context);
-                            final mainController =
-                                context.read<MainController>();
-                            mainController.allowPrivateRoutes = false;
-                            controller.logout();
-                            navigator.popAndPushNamed(LoginPage.path);
+                            final loginAuth = BlocProvider.of<AuthBloc>(context);
+                            loginAuth.add(AuthLogoutRequest());
                           },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,

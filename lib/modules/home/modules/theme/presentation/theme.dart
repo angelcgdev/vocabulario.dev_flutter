@@ -23,6 +23,16 @@ class DefaultTheme {
   static const maxWidth = 500.0;
 }
 
+
+final systemUiColorLight = SystemUiOverlayStyle.dark.copyWith(
+  statusBarColor: Colors.transparent,
+  systemNavigationBarColor: Colors.transparent
+);
+final systemUiColorDark = SystemUiOverlayStyle.light.copyWith(
+  statusBarColor: Colors.transparent,
+  systemNavigationBarColor: Colors.transparent
+);
+
 final themeLight = ThemeData(
   appBarTheme: AppBarTheme(
     centerTitle: true,

@@ -12,6 +12,7 @@ class UserInfoStorageReapositoryImpl
       : _secureStorageReapositoryInterface = secureStorage;
   final _keyToken = 'token';
   final _keyUser = 'user';
+
   @override
   Future<String?> getToken() {
     return _secureStorageReapositoryInterface.read(_keyToken);
@@ -46,4 +47,5 @@ class UserInfoStorageReapositoryImpl
   Future<void> deleteUser() async {
     await _secureStorageReapositoryInterface.delete(_keyUser);
   }
+  
 }

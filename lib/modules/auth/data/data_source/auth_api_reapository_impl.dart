@@ -10,6 +10,7 @@ import 'package:vocabulario_dev/modules/auth/domain/response/login_response.dart
 import 'package:vocabulario_dev/modules/auth/domain/request/login_request.dart';
 import 'package:vocabulario_dev/modules/common/data/data_source/api.dart';
 
+
 class AuthApiReapositoryImpl extends AuthApiReapositoryInterface {
   final RequestServiceRepositoryInterface _requestService;
   AuthApiReapositoryImpl(
@@ -47,7 +48,6 @@ class AuthApiReapositoryImpl extends AuthApiReapositoryInterface {
           path: '/api/auth/login',
           data: loginData.toJson()));
       if (request.data != null) {
-        print(request.data);
         final dataDecoded = jsonDecode(request.data);
         if (request.statusCode == 200) {
           final response = LoginResponse.fromJson(dataDecoded);

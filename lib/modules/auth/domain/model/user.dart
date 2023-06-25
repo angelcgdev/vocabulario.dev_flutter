@@ -1,4 +1,6 @@
-class User {
+import 'package:equatable/equatable.dart';
+
+class User extends Equatable {
   final int id;
   final String fisrtName;
   final String lastName;
@@ -19,8 +21,7 @@ class User {
         email: json['email'],
         image: json['image']);
   }
-  factory User.empty() =>
-      const User(id: 0, email: '', image: '', fisrtName: '', lastName: '');
+  static const empty =  User(id: 0, email: '', image: '', fisrtName: '', lastName: '');
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -29,4 +30,8 @@ class User {
         'email': email,
         'image': image,
       };
+
+  
+  @override
+  List<Object> get props => [id, fisrtName, lastName, email, image??'_'];
 }

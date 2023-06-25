@@ -1,4 +1,4 @@
-import 'package:vocabulario_dev/modules/auth/domain/model/user.dart';
+import 'package:vocabulario_dev/modules/auth/domain/model/models.dart';
 
 class LoginResponse {
   final String token;

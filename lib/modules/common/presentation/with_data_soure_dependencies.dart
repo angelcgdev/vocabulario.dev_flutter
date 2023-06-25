@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:vocabulario_dev/modules/common/data/data_source/request_service_reapository_impl.dart';
 import 'package:vocabulario_dev/modules/common/data/data_source/secure_storage_reapository_impl.dart';
 import 'package:vocabulario_dev/modules/common/domain/reapository/request_service_reapository.dart';
@@ -10,12 +10,12 @@ class WithBasicDataSourceDependencies extends StatelessWidget {
   final Widget Function(BuildContext) builder;
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
+    return MultiBlocProvider(
       providers: [
-        Provider<RequestServiceRepositoryInterface>(
+        RepositoryProvider<RequestServiceRepositoryInterface>(
           create: (_) => RequestServiceReapositoryImpl(),
         ),
-        Provider<SecureStorageReapositoryInterface>(
+        RepositoryProvider<SecureStorageReapositoryInterface>(
           create: (_) => SecureStorageReapositoryImpl(),
         ),
       ],

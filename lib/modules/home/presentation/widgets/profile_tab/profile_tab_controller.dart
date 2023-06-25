@@ -10,7 +10,7 @@ class ProfileTabController extends ChangeNotifier {
         userInfoStorageReapositoryInterface,
   }) : _userInfoStorage = userInfoStorageReapositoryInterface;
 
-  User _user = User.empty();
+  User _user = User.empty;
   User get user => _user;
 
   void init() async {

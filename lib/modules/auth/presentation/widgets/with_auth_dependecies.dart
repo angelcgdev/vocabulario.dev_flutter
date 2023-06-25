@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vocabulario_dev/modules/auth/aplication/login_bloc.dart';
-import 'package:vocabulario_dev/modules/auth/aplication/login_state.dart';
+import 'package:vocabulario_dev/modules/auth/aplication/auth_bloc.dart';
 import 'package:vocabulario_dev/modules/auth/data/data_source/auth_api_reapository_impl.dart';
 import 'package:vocabulario_dev/modules/auth/data/data_source/userinfo_storage_reapository_impl.dart';
 import 'package:vocabulario_dev/modules/auth/domain/reapository/auth_api_reapository.dart';
@@ -28,8 +27,7 @@ class WithAuthDependencies extends StatelessWidget {
         ),
       ],
       child: BlocProvider(
-        create: (context) => LoginBloc(
-          initialState: LoginInitial(),
+        create: (context) => AuthBloc(
           authReapository: RepositoryProvider.of<AuthApiReapositoryInterface>(context),
           userInfoReapository: RepositoryProvider.of<UserInfoStorageReapositoryInterface>(context),
         ),

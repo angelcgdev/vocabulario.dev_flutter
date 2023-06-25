@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:vocabulario_dev/main_controller.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:vocabulario_dev/modules/home/modules/theme/aplication/theme_bloc.dart';
 
 class ThemeOption {
   String name;
@@ -17,25 +17,30 @@ class ThemePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mainController = context.watch<MainController>();
+    final themeBloc = BlocProvider.of<ThemeBloc>(context);
     final localization = AppLocalizations.of(context)!;
     return Scaffold(
         appBar: AppBar(
           title: Text(localization.theme_page_title),
         ),
-        body: Column(
-          children: ThemeMode.values
-              .map((e) => RadioListTile(
-                  value: e,
-                  title: Text(
-                      localization.theme_page_options_title(describeEnum(e))),
-                  groupValue: mainController.themeMode,
-                  onChanged: (theme) {
-                    if (theme != null) {
-                      mainController.themeMode = theme;
-                    }
-                  }))
-              .toList(),
+        body: BlocBuilder<ThemeBloc, ThemeState>(
+          builder: (context, state) {
+            // final themeSelected
+            return Column(
+              children: ThemeMode.values
+                  .map((e) => RadioListTile(
+                      value: e,
+                      title: Text(
+                          localization.theme_page_options_title(describeEnum(e))),
+                      groupValue: state.themeMode,
+                      onChanged: (theme) {
+                        if (theme != null) {
+                          themeBloc.add(ThemeModeChoosed(theme));
+                        }
+                      }))
+                  .toList(),
+            );
+          }
         ));
   }
 }

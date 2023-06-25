@@ -111,8 +111,7 @@ class _BodyWithTermState extends State<_BodyWithTerm>
           return pre != next;
         },
         builder: (_, isLoading, __) {
-          return LoadingLayout(
-            isLoading: isLoading,
+          return LoadingOverlay(
             child: Scaffold(
               appBar: AppBar(
                 title: Text(widget.lesson.name),

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:vocabulario_dev/modules/home/modules/theme/presentation/theme.dart';
 
 class ElevateButtonAsyn extends StatelessWidget {
-  ElevateButtonAsyn(
+  const ElevateButtonAsyn(
       {super.key, this.onPressed, required this.label, this.isLoading = false});
 
   final VoidCallback? onPressed;
-  bool isLoading = false;
+  final bool isLoading;
   final Text label;
   @override
   Widget build(BuildContext context) {
