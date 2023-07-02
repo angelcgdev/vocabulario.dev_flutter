@@ -7,6 +7,7 @@ class LoadingOverlay extends StatefulWidget {
   });
   final Widget child;
 
+  // ignore: library_private_types_in_public_api
   static _LoadingOverlayState of(BuildContext context) {
     return context.findAncestorStateOfType<_LoadingOverlayState>()!;
   }

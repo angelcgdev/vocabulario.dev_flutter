@@ -51,7 +51,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final localization = AppLocalizations.of(context)!;
     return AuthNavigatorManager(
       child: MultiProvider(
         providers: [
@@ -177,9 +176,6 @@ class _MyCustomBarLg extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const tabBarHeight = 70.0;
-    const fontSize = 13.0;
-    const iconSize = 17.0;
     final localization = AppLocalizations.of(context)!;
     return Container(
       color: Theme.of(context).colorScheme.surface,
@@ -243,7 +239,6 @@ class _MyCustomBarLg extends StatelessWidget {
 
 class _MyCustomBarItemLg extends StatelessWidget {
   const _MyCustomBarItemLg({
-    super.key,
     required this.icon,
     required this.label,
     required this.index,

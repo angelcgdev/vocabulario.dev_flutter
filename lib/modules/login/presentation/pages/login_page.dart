@@ -5,7 +5,6 @@ import 'package:vocabulario_dev/modules/auth/aplication/auth_bloc.dart';
 import 'package:vocabulario_dev/modules/auth/domain/model/auth_status.dart';
 import 'package:vocabulario_dev/modules/auth/presentation/widgets/auth_navigation_manager.dart';
 import 'package:vocabulario_dev/modules/common/widgets/loading_layout.dart';
-import 'package:vocabulario_dev/modules/common/widgets/responsive_wrapper.dart';
 import 'package:vocabulario_dev/modules/home/presentation/pages/home_page.dart';
 import 'package:vocabulario_dev/modules/auth/presentation/pages/signin/sigin_page.dart';
 import 'package:vocabulario_dev/modules/home/modules/theme/presentation/theme.dart';
