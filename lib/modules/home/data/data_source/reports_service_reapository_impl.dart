@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:vocabulario_dev/modules/common/data/data_source/api.dart';
-import 'package:vocabulario_dev/modules/home/domain/model/report.dart';
+import 'package:vocabulario_dev/modules/home/modules/definition_report/domain/model/report.dart';
 import 'package:vocabulario_dev/modules/home/domain/reapository/reports_api_reapository.dart';
 import 'package:vocabulario_dev/modules/common/domain/reapository/request_service_reapository.dart';
 import 'package:vocabulario_dev/modules/auth/domain/reapository/userinfo_storage_reapository.dart';

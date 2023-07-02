@@ -23,17 +23,15 @@ class DefaultTheme {
   static const maxWidth = 500.0;
 }
 
-
 final systemUiColorLight = SystemUiOverlayStyle.dark.copyWith(
-  statusBarColor: Colors.transparent,
-  systemNavigationBarColor: Colors.transparent
-);
+    statusBarColor: Colors.transparent,
+    systemNavigationBarColor: Colors.transparent);
 final systemUiColorDark = SystemUiOverlayStyle.light.copyWith(
-  statusBarColor: Colors.transparent,
-  systemNavigationBarColor: Colors.transparent
-);
+    statusBarColor: Colors.transparent,
+    systemNavigationBarColor: Colors.transparent);
 
-final themeLight = ThemeData(
+ThemeData themeLight() {
+  return ThemeData(
   appBarTheme: AppBarTheme(
     centerTitle: true,
     systemOverlayStyle: const SystemUiOverlayStyle(
@@ -158,7 +156,20 @@ final themeLight = ThemeData(
     selectedIconTheme: IconThemeData(color: colorSchemaLight['secondary']),
     backgroundColor: colorSchemaLight['primaryColor']!.withOpacity(.1),
   ),
+  cardTheme: CardTheme(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(DefaultTheme.borderRadius),
+      side: BorderSide(
+        width: 1,
+        color: colorSchemaLight['primaryColor']!,
+      ),
+    ),
+    elevation: 0,
+    margin: EdgeInsets.zero,
+    color: colorSchemaLight['background'],
+  ),
 );
+}
 
 const colorSchemaDark = {
   'primaryColor': Color.fromRGBO(224, 235, 255, 1),
@@ -299,5 +310,17 @@ final themeDark = ThemeData(
     unselectedIconTheme: IconThemeData(color: colorSchemaDark['primaryColor']),
     selectedIconTheme: IconThemeData(color: colorSchemaDark['secondary']),
     backgroundColor: colorSchemaDark['surface'],
+  ),
+  cardTheme: CardTheme(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(DefaultTheme.borderRadius),
+      side: BorderSide(
+        width: 1,
+        color: colorSchemaDark['primaryColor']!,
+      ),
+    ),
+    elevation: 0,
+    margin: EdgeInsets.zero,
+    color: colorSchemaDark['background'],
   ),
 );

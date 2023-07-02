@@ -192,7 +192,7 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constrains) {
-        final width = MediaQuery.of(context).size.width;
+        final width = constrains.maxWidth;
         final paddingTomaxWidth = (width - DefaultTheme.maxWidth) / 2;
         const minPadding = 50.0;
         final double padding =

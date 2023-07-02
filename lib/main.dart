@@ -12,6 +12,7 @@ import 'package:vocabulario_dev/modules/home/modules/theme/aplication/theme_bloc
 import 'package:vocabulario_dev/modules/home/modules/theme/presentation/theme.dart';
 import 'package:vocabulario_dev/modules/home/modules/theme/presentation/widgets/with_theme_dependencies.dart';
 import 'package:vocabulario_dev/routes/routes.dart';
+import 'package:vocabulario_dev/utils/responsive_property.dart';
 
 void main() {
   runApp(const MainApp());
@@ -53,7 +54,7 @@ class Main extends StatelessWidget {
               title: 'Vocabulario.dev',
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
-              theme: themeLight,
+              theme: themeLight(),
               darkTheme: themeDark,
               routes: routes(
                 context: context,

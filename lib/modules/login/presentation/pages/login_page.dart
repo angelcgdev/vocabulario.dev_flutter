@@ -5,6 +5,7 @@ import 'package:vocabulario_dev/modules/auth/aplication/auth_bloc.dart';
 import 'package:vocabulario_dev/modules/auth/domain/model/auth_status.dart';
 import 'package:vocabulario_dev/modules/auth/presentation/widgets/auth_navigation_manager.dart';
 import 'package:vocabulario_dev/modules/common/widgets/loading_layout.dart';
+import 'package:vocabulario_dev/modules/common/widgets/responsive_wrapper.dart';
 import 'package:vocabulario_dev/modules/home/presentation/pages/home_page.dart';
 import 'package:vocabulario_dev/modules/auth/presentation/pages/signin/sigin_page.dart';
 import 'package:vocabulario_dev/modules/home/modules/theme/presentation/theme.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:vocabulario_dev/modules/login/aplication/login_bloc.dart';
 import 'package:vocabulario_dev/modules/login/presentation/widgets/with_login_dependencies.dart';
 import 'package:vocabulario_dev/utils/email_is_valid.dart';
+import 'package:vocabulario_dev/utils/responsive_property.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -34,15 +36,19 @@ class LoginPage extends StatelessWidget {
           final overlay = LoadingOverlay.of(context);
           return BlocListener<AuthBloc, AuthState>(
             listenWhen: (previous, current) {
-              return previous.status == AuthStatus.checking || current.status==AuthStatus.checking;
+              return previous.status == AuthStatus.checking ||
+                  current.status == AuthStatus.checking;
             },
             listener: (context, state) async {
               if (state.status == AuthStatus.checking) {
                 overlay.show();
               } else {
                 scaffolMessageInstance.clearSnackBars();
-                final duration = ModalRoute.of(context)?.transitionDuration.inMilliseconds??0;
-                final redirectionDelay = (AuthNavigatorManager.redirectionDelay+duration);
+                final duration =
+                    ModalRoute.of(context)?.transitionDuration.inMilliseconds ??
+                        0;
+                final redirectionDelay =
+                    (AuthNavigatorManager.redirectionDelay + duration);
                 await Future.delayed(Duration(milliseconds: redirectionDelay));
                 overlay.hide();
               }
@@ -77,7 +83,7 @@ class LoginPage extends StatelessWidget {
                       child: Center(
                         child: Container(
                             constraints: const BoxConstraints(maxWidth: 500),
-                            padding: const EdgeInsets.all(20),
+                            padding: EdgeInsets.all(ResponsiveProperty(width: width, xs: 20.0,  sm: 30.0).value),
                             child: Column(
                               children: [
                                 const SizedBox(height: 10),

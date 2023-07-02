@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:vocabulario_dev/modules/home/domain/model/report.dart';
+import 'package:vocabulario_dev/modules/home/modules/definition_report/domain/model/report.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:vocabulario_dev/modules/home/modules/definition_report/presentation/pages/definition_report_page.dart';
 import 'package:vocabulario_dev/modules/home/modules/theme/presentation/theme.dart';

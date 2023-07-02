@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:vocabulario_dev/modules/auth/aplication/auth_bloc.dart';
 import 'package:vocabulario_dev/modules/auth/domain/reapository/userinfo_storage_reapository.dart';
+import 'package:vocabulario_dev/modules/home/modules/theme/aplication/theme_bloc.dart';
 import 'package:vocabulario_dev/modules/home/presentation/widgets/profile_tab/profile_tab_controller.dart';
 import 'package:vocabulario_dev/modules/home/modules/theme/presentation/pages/theme_page.dart';
 import 'package:vocabulario_dev/modules/home/modules/theme/presentation/theme.dart';
@@ -86,12 +88,7 @@ class ProfileTab extends StatelessWidget {
                         style: Theme.of(context).textTheme.displaySmall,
                       ),
                       const SizedBox(height: DefaultTheme.gap * .5),
-                      Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Theme.of(context).colorScheme.primary),
-                            borderRadius: BorderRadius.circular(
-                                DefaultTheme.borderRadius)),
+                      Card(
                         child: Column(
                           children: [
                             _TouchableOption(
@@ -111,7 +108,11 @@ class ProfileTab extends StatelessWidget {
                               },
                               label: localization
                                   .home_page_tab_profile_category_general_change_theme,
-                              rightWidget: const Text('Auto'),
+                              rightWidget: BlocBuilder<ThemeBloc, ThemeState>(
+                                builder: (context, state) {
+                                  return Text(localization.theme_page_options_title(describeEnum(state.themeMode)));
+                                }
+                              ),
                             ),
                           ],
                         ),

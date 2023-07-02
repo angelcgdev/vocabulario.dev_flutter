@@ -1,4 +1,4 @@
-import 'package:vocabulario_dev/modules/home/domain/model/report.dart';
+import 'package:vocabulario_dev/modules/home/modules/definition_report/domain/model/report.dart';
 
 abstract class ReportsApiRepositoryInterface {
   Future<List<Report>> getReporsListByUserId(int userId);

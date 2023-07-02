@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:vocabulario_dev/modules/home/domain/model/report.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:vocabulario_dev/modules/home/modules/definition_report/aplication/reports_bloc.dart';
+import 'package:vocabulario_dev/modules/home/modules/definition_report/domain/model/report.dart';
 import 'package:vocabulario_dev/modules/home/modules/definition_report/presentation/widgets/report_item.dart';
 import 'package:vocabulario_dev/modules/home/modules/theme/presentation/theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -16,103 +18,81 @@ class _ReportsTabState extends State<ReportsTab>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    final reportsBloc = BlocProvider.of<ReportsBloc>(context, listen: false);
+    reportsBloc.add(ReportsFetched());
     final localizations = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
-    return const Scaffold(
-      body: Column(
-        children: [
-          // Expanded(
-          //   child: FutureBuilder(
-          //     future: controller.getReports,
-          //     builder: (context, snapshot) {
-          //       if (snapshot.hasError) {
-          //         final error = snapshot.error;
-          //         if (error is ReportException) {
-          //           return SafeArea(
-          //             child: Center(
-          //               child: Column(
-          //                 mainAxisSize: MainAxisSize.min,
-          //                 children: [
-          //                   Text(error.cause),
-          //                   TextButton(
-          //                     onPressed: controller.simulateRefresh,
-          //                     child: Text(
-          //                         localizations.home_page_tab_report_retry),
-          //                   )
-          //                 ],
-          //               ),
-          //             ),
-          //           );
-          //         }
-          //         return SafeArea(
-          //           child: Center(
-          //             child: Column(
-          //               mainAxisSize: MainAxisSize.min,
-          //               children: [
-          //                 Text(localizations.unknow_error),
-          //                 TextButton(
-          //                   onPressed: controller.simulateRefresh,
-          //                   child:
-          //                       Text(localizations.home_page_tab_report_retry),
-          //                 )
-          //               ],
-          //             ),
-          //           ),
-          //         );
-          //       }
-          //       switch (snapshot.connectionState) {
-          //         case ConnectionState.done:
-          //           final data = snapshot.data!;
-          //           if (data.isEmpty) {
-          //             return SafeArea(
-          //               child: Center(
-          //                 child: Column(
-          //                   mainAxisSize: MainAxisSize.min,
-          //                   children: [
-          //                     Text(localizations.home_page_tab_report_empty),
-          //                     TextButton(
-          //                       onPressed: controller.simulateRefresh,
-          //                       child: Text(
-          //                           localizations.home_page_tab_report_retry),
-          //                     )
-          //                   ],
-          //                 ),
-          //               ),
-          //             );
-          //           }
-          //           final backgroundColor = theme.colorScheme.background;
-          //           return Stack(
-          //             children: [
-          //               _ListItems(data: data),
-          //               Positioned(
-          //                 top: 0,
-          //                 left: 0,
-          //                 right: 0,
-          //                 height: MediaQuery.of(context).padding.top,
-          //                 child: Container(
-          //                   decoration: BoxDecoration(
-          //                       gradient: LinearGradient(
-          //                           begin: Alignment.topCenter,
-          //                           end: Alignment.bottomCenter,
-          //                           colors: [
-          //                         backgroundColor,
-          //                         backgroundColor.withOpacity(0)
-          //                       ])),
-          //                 ),
-          //               )
-          //             ],
-          //           );
-          //         default:
-          //           return const SafeArea(
-          //             child: Center(
-          //               child: CircularProgressIndicator(),
-          //             ),
-          //           );
-          //       }
-          //     },
-          //   ),
-          // )
-        ],
+    return RefreshIndicator(
+      edgeOffset: MediaQuery.of(context).padding.top,
+      onRefresh: () async {
+        reportsBloc.add(ReportsFetched());
+        await Future.delayed(
+          const Duration(seconds: 2),
+        );
+      },
+      child: Scaffold(
+        body: Column(
+          children: [
+            Expanded(
+              child: BlocBuilder<ReportsBloc, ReportsState>(
+                builder: (context, state) {
+                  switch (state.status) {
+                    case ReportStatus.failure:
+                      return SafeArea(
+                        child: Center(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(localizations.unknow_error),
+                              TextButton(
+                                onPressed: () {
+                                  reportsBloc.add(ReportsFetched());
+                                },
+                                child: Text(
+                                    localizations.home_page_tab_report_retry),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    case ReportStatus.initial:
+                      return const SafeArea(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    case ReportStatus.success:
+                      final data = state.reports;
+                      final backgroundColor = theme.colorScheme.background;
+                      return Stack(
+                        children: [
+                          _ListItems(data: data),
+                          Positioned(
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            height: MediaQuery.of(context).padding.top,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    backgroundColor,
+                                    backgroundColor.withOpacity(0)
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      );
+                  }
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -131,7 +111,7 @@ class _ListItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constrains) {
-      final width = MediaQuery.of(context).size.width;
+      final width = constrains.maxWidth;
       final systemPadding = MediaQuery.of(context).padding;
       final double padding = width > DefaultTheme.maxWidth
           ? ((width - DefaultTheme.maxWidth) / 2)
@@ -155,8 +135,7 @@ class _ListItems extends StatelessWidget {
 }
 
 class _Header extends StatelessWidget {
-  // ignore: unused_element
-  const _Header({super.key});
+  const _Header();
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:vocabulario_dev/modules/home/data/exceptions/term_expeption.dart';
 import 'package:vocabulario_dev/modules/home/domain/model/lesson.dart';
 import 'package:vocabulario_dev/modules/home/domain/model/term.dart';
-import 'package:vocabulario_dev/modules/home/domain/model/report.dart';
+import 'package:vocabulario_dev/modules/home/modules/definition_report/domain/model/report.dart';
 import 'package:vocabulario_dev/modules/home/domain/reapository/reports_api_reapository.dart';
 import 'package:vocabulario_dev/modules/home/domain/reapository/terms_api_reapository.dart';
 import 'package:vocabulario_dev/modules/auth/domain/reapository/userinfo_storage_reapository.dart';
