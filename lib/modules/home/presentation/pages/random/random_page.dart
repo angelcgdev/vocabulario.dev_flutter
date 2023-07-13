@@ -9,18 +9,19 @@ class RandomPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: SafeArea(
-          child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Choosing a random lesson..'),
-            SizedBox(
-              height: DefaultTheme.gap,
-            ),
-            CircularProgressIndicator()
-          ],
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Choosing a random lesson..'),
+              SizedBox(
+                height: DefaultTheme.gap,
+              ),
+              CircularProgressIndicator()
+            ],
+          ),
         ),
-      )),
+      ),
     );
   }
 }

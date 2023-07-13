@@ -30,145 +30,178 @@ final systemUiColorDark = SystemUiOverlayStyle.light.copyWith(
     statusBarColor: Colors.transparent,
     systemNavigationBarColor: Colors.transparent);
 
-ThemeData themeLight() {
-  return ThemeData(
-  appBarTheme: AppBarTheme(
-    centerTitle: true,
-    systemOverlayStyle: const SystemUiOverlayStyle(
-      statusBarIconBrightness: Brightness.dark,
-      statusBarBrightness: Brightness.light,
-      statusBarColor: Colors.transparent,
-    ),
-    titleTextStyle: TextStyle(
-      fontFamily: 'Poppins',
-      fontSize: 18,
-      fontWeight: FontWeight.w600,
-      color: colorSchemaLight['primaryColor'],
+const dialogTheme = DialogTheme(
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(
+      Radius.circular(DefaultTheme.borderRadius * 2),
     ),
   ),
-  navigationBarTheme:
-      NavigationBarThemeData(backgroundColor: colorSchemaDark['background']),
-  useMaterial3: true,
-  fontFamily: 'Poppins',
-  splashColor: Colors.black12,
-  brightness: Brightness.light,
-  primaryColor: colorSchemaLight['primaryColor']!.withOpacity(.5),
-  primaryColorLight: colorSchemaLight['primaryColor']!.withOpacity(.5),
-  primaryColorDark: colorSchemaLight['primaryColor']!.withOpacity(.5),
-  colorScheme: ThemeData.light().colorScheme.copyWith(
-        primary: colorSchemaLight['primaryColor'],
-        onPrimary: colorSchemaLight['onPrimary'],
-        secondary: colorSchemaLight['secondary'],
-        tertiary: colorSchemaLight['tertiary'],
-        tertiaryContainer: colorSchemaLight['tertiaryContainer'],
-        onTertiaryContainer: colorSchemaLight['onTertiaryContainer'],
-        onSecondary: colorSchemaLight['onSecondary'],
-        surface: colorSchemaLight['surface'],
-        background: colorSchemaLight['background'],
-        onBackground: const Color.fromARGB(255, 0, 0, 0),
-        primaryContainer: colorSchemaLight['primaryColor']!.withOpacity(.5),
-      ),
-  textTheme: ThemeData.light().textTheme.copyWith(
-        displayLarge: TextStyle(
-          fontSize: 40,
-          fontWeight: FontWeight.w600,
-          color: colorSchemaLight['primaryColor'],
-        ),
-        displayMedium: TextStyle(
-          fontSize: 25,
-          fontWeight: FontWeight.w600,
-          color: colorSchemaLight['primaryColor'],
-        ),
-        displaySmall: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
-          color: colorSchemaLight['primaryColor'],
-        ),
-        bodyLarge: const TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.w500,
-          color: Colors.black54,
-        ),
-        bodyMedium: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w500,
-          color: colorSchemaLight['primaryColor'],
-        ),
-        bodySmall: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w400,
-          color: colorSchemaLight['primaryColor'],
-        ),
-        labelMedium: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w300,
-          color: colorSchemaLight['primaryColor'],
-        ),
-      ),
-  inputDecorationTheme: InputDecorationTheme(
-    contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-    hintStyle: const TextStyle(
-      fontSize: 16,
-      fontFamily: 'poppins',
-      fontWeight: FontWeight.w400,
-      color: Colors.black38,
-    ),
-    errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(DefaultTheme.borderRadius),
-        borderSide: const BorderSide(color: Color.fromRGBO(255, 115, 105, 1))),
-    focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(DefaultTheme.borderRadius),
-        borderSide: const BorderSide(color: Color.fromARGB(255, 255, 17, 0))),
-    disabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(DefaultTheme.borderRadius),
-        borderSide: BorderSide(color: colorSchemaLight['disabledColor']!)),
-    focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(DefaultTheme.borderRadius)),
-    enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(DefaultTheme.borderRadius),
-        borderSide: BorderSide(color: colorSchemaLight['disabledColor']!)),
-  ),
-  elevatedButtonTheme: ElevatedButtonThemeData(
-    style: ElevatedButton.styleFrom(
-        elevation: 0,
-        padding: const EdgeInsets.all(DefaultTheme.padding * .5),
-        minimumSize: const Size(double.infinity, DefaultTheme.hightbtn),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(DefaultTheme.borderRadius),
-        ),
-        backgroundColor: colorSchemaLight['secondary']),
-  ),
-  outlinedButtonTheme: OutlinedButtonThemeData(
-      style: OutlinedButton.styleFrom(
-    elevation: 0,
-    padding: const EdgeInsets.all(DefaultTheme.padding * .5),
-    minimumSize: const Size(double.infinity, DefaultTheme.hightbtn),
-    side: BorderSide(color: colorSchemaLight['primaryColor']!),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(DefaultTheme.borderRadius),
-    ),
-  )),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    elevation: 0,
-    selectedItemColor: colorSchemaLight['secondary'],
-    unselectedItemColor: colorSchemaLight['primaryColor'],
-    unselectedIconTheme: IconThemeData(color: colorSchemaLight['primaryColor']),
-    selectedIconTheme: IconThemeData(color: colorSchemaLight['secondary']),
-    backgroundColor: colorSchemaLight['primaryColor']!.withOpacity(.1),
-  ),
-  cardTheme: CardTheme(
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(DefaultTheme.borderRadius),
-      side: BorderSide(
-        width: 1,
-        color: colorSchemaLight['primaryColor']!,
-      ),
-    ),
-    elevation: 0,
-    margin: EdgeInsets.zero,
-    color: colorSchemaLight['background'],
+  elevation: 0,
+  actionsPadding: EdgeInsets.only(
+    left: DefaultTheme.padding,
+    right: DefaultTheme.padding,
+    bottom: DefaultTheme.padding,
   ),
 );
+
+ThemeData themeLight() {
+  return ThemeData(
+    appBarTheme: AppBarTheme(
+      centerTitle: true,
+      systemOverlayStyle: const SystemUiOverlayStyle(
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
+        statusBarColor: Colors.transparent,
+      ),
+      titleTextStyle: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+        color: colorSchemaLight['primaryColor'],
+      ),
+    ),
+    navigationBarTheme:
+        NavigationBarThemeData(backgroundColor: colorSchemaDark['background']),
+    useMaterial3: true,
+    fontFamily: 'Poppins',
+    splashColor: Colors.black12,
+    brightness: Brightness.light,
+    primaryColor: colorSchemaLight['primaryColor']!.withOpacity(.5),
+    primaryColorLight: colorSchemaLight['primaryColor']!.withOpacity(.5),
+    primaryColorDark: colorSchemaLight['primaryColor']!.withOpacity(.5),
+    colorScheme: ThemeData.light().colorScheme.copyWith(
+          primary: colorSchemaLight['primaryColor'],
+          onPrimary: colorSchemaLight['onPrimary'],
+          secondary: colorSchemaLight['secondary'],
+          tertiary: colorSchemaLight['tertiary'],
+          tertiaryContainer: colorSchemaLight['tertiaryContainer'],
+          onTertiaryContainer: colorSchemaLight['onTertiaryContainer'],
+          onSecondary: colorSchemaLight['onSecondary'],
+          surface: colorSchemaLight['surface'],
+          background: colorSchemaLight['background'],
+          onBackground: const Color.fromARGB(255, 0, 0, 0),
+          primaryContainer: colorSchemaLight['primaryColor']!.withOpacity(.5),
+        ),
+    textTheme: ThemeData.light().textTheme.copyWith(
+          displayLarge: TextStyle(
+            fontSize: 40,
+            fontWeight: FontWeight.w600,
+            color: colorSchemaLight['primaryColor'],
+          ),
+          displayMedium: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.w600,
+            color: colorSchemaLight['primaryColor'],
+          ),
+          displaySmall: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: colorSchemaLight['primaryColor'],
+          ),
+          bodyLarge: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+            color: Colors.black54,
+          ),
+          bodyMedium: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: colorSchemaLight['primaryColor'],
+          ),
+          bodySmall: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+            color: colorSchemaLight['primaryColor'],
+          ),
+          labelMedium: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w300,
+            color: colorSchemaLight['primaryColor'],
+          ),
+          titleLarge: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w600,
+            color: colorSchemaLight['primaryColor'],
+          ),
+          titleMedium: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: colorSchemaLight['primaryColor'],
+          ),
+          titleSmall: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: colorSchemaLight['primaryColor'],
+          ),
+        ),
+    inputDecorationTheme: InputDecorationTheme(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      hintStyle: const TextStyle(
+        fontSize: 16,
+        fontFamily: 'poppins',
+        fontWeight: FontWeight.w400,
+        color: Colors.black38,
+      ),
+      errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(DefaultTheme.borderRadius),
+          borderSide:
+              const BorderSide(color: Color.fromRGBO(255, 115, 105, 1))),
+      focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(DefaultTheme.borderRadius),
+          borderSide: const BorderSide(color: Color.fromARGB(255, 255, 17, 0))),
+      disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(DefaultTheme.borderRadius),
+          borderSide: BorderSide(color: colorSchemaLight['disabledColor']!)),
+      focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(DefaultTheme.borderRadius)),
+      enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(DefaultTheme.borderRadius),
+          borderSide: BorderSide(color: colorSchemaLight['disabledColor']!)),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+          elevation: 0,
+          padding: const EdgeInsets.all(DefaultTheme.padding * .5),
+          minimumSize: const Size(double.infinity, DefaultTheme.hightbtn),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(DefaultTheme.borderRadius),
+          ),
+          backgroundColor: colorSchemaLight['secondary']),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+      elevation: 0,
+      padding: const EdgeInsets.all(DefaultTheme.padding * .5),
+      minimumSize: const Size(double.infinity, DefaultTheme.hightbtn),
+      side: BorderSide(color: colorSchemaLight['primaryColor']!),
+      shape: RoundedRectangleBorder(
+        side: const BorderSide(width: 1.5),
+        borderRadius: BorderRadius.circular(DefaultTheme.borderRadius),
+      ),
+    )),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      elevation: 0,
+      selectedItemColor: colorSchemaLight['secondary'],
+      unselectedItemColor: colorSchemaLight['primaryColor'],
+      unselectedIconTheme:
+          IconThemeData(color: colorSchemaLight['primaryColor']),
+      selectedIconTheme: IconThemeData(color: colorSchemaLight['secondary']),
+      backgroundColor: colorSchemaLight['primaryColor']!.withOpacity(.1),
+    ),
+    cardTheme: CardTheme(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(DefaultTheme.borderRadius),
+        side: BorderSide(
+          width: 1,
+          color: colorSchemaLight['primaryColor']!,
+        ),
+      ),
+      elevation: 0,
+      margin: EdgeInsets.zero,
+      color: colorSchemaLight['background'],
+    ),
+    dialogTheme: dialogTheme,
+  );
 }
 
 const colorSchemaDark = {
@@ -258,6 +291,21 @@ final themeDark = ThemeData(
           fontWeight: FontWeight.w300,
           color: colorSchemaDark['primaryColor'],
         ),
+        titleLarge: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+          color: colorSchemaDark['primaryColor'],
+        ),
+        titleMedium: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: colorSchemaDark['primaryColor'],
+        ),
+        titleSmall: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: colorSchemaDark['primaryColor'],
+        ),
       ),
   inputDecorationTheme: InputDecorationTheme(
     contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
@@ -294,15 +342,16 @@ final themeDark = ThemeData(
         backgroundColor: colorSchemaDark['secondary']),
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
-      style: OutlinedButton.styleFrom(
-    elevation: 0,
-    padding: const EdgeInsets.all(DefaultTheme.padding * .5),
-    minimumSize: const Size(double.infinity, DefaultTheme.hightbtn),
-    side: BorderSide(color: colorSchemaDark['primaryColor']!),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(DefaultTheme.borderRadius),
+    style: OutlinedButton.styleFrom(
+      elevation: 0,
+      padding: const EdgeInsets.all(DefaultTheme.padding * .5),
+      minimumSize: const Size(double.infinity, DefaultTheme.hightbtn),
+      side: BorderSide(color: colorSchemaDark['primaryColor']!),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(DefaultTheme.borderRadius),
+      ),
     ),
-  )),
+  ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     elevation: 0,
     selectedItemColor: colorSchemaDark['secondary'],
@@ -323,4 +372,5 @@ final themeDark = ThemeData(
     margin: EdgeInsets.zero,
     color: colorSchemaDark['background'],
   ),
+  dialogTheme: dialogTheme,
 );

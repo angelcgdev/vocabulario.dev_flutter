@@ -1,9 +1,9 @@
 class Lesson {
-  int id;
-  String name;
-  String image;
-  List<Progress> terms;
-  Lesson(
+  final int id;
+  final String name;
+  final String image;
+  final List<Progress> terms;
+  const Lesson(
       {required this.id,
       required this.name,
       required this.image,
@@ -24,12 +24,14 @@ class Lesson {
       }(),
     );
   }
+
+  static const empty = Lesson(id: 0, name: '', image: '', terms: []);
 }
 
 class Progress {
-  int id;
-  bool completed;
-  Progress({required this.id, required this.completed});
+  final int id;
+  final bool completed;
+  const Progress({required this.id, required this.completed});
 
   factory Progress.fromJson(Map<String, dynamic> json) {
     return Progress(

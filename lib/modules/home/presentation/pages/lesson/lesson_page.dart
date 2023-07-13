@@ -1,28 +1,22 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:provider/provider.dart';
+import 'package:vocabulario_dev/modules/common/widgets/async_btn.dart';
 import 'package:vocabulario_dev/modules/home/domain/model/term.dart';
 import 'package:vocabulario_dev/modules/home/domain/model/lesson.dart';
-import 'package:vocabulario_dev/modules/home/domain/reapository/reports_api_reapository.dart';
-import 'package:vocabulario_dev/modules/home/domain/reapository/terms_api_reapository.dart';
-import 'package:vocabulario_dev/modules/auth/domain/reapository/userinfo_storage_reapository.dart';
-import 'package:vocabulario_dev/modules/home/presentation/pages/lesson/lesson_controller.dart';
+import 'package:vocabulario_dev/modules/home/modules/lesson/aplication/lesson_bloc.dart';
 import 'package:vocabulario_dev/modules/home/presentation/pages/lesson/widget/report_term_dialog.dart';
 import 'package:vocabulario_dev/modules/common/widgets/loading_layout.dart';
 import 'package:vocabulario_dev/modules/home/modules/theme/presentation/theme.dart';
-import 'package:vocabulario_dev/modules/common/widgets/async_btn.dart';
+import 'package:vocabulario_dev/modules/home/presentation/pages/lesson/with_lesson_dependencies.dart';
 
 class LessonPage extends StatelessWidget {
   const LessonPage._();
   static Widget init(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => LessonController(
-          reportsService: context.read<ReportsApiRepositoryInterface>(),
-          userInfo: context.read<UserInfoStorageReapositoryInterface>(),
-          termsService: context.read<TermsApiReapositoryInterface>()),
-      builder: (_, __) {
+    return WithLessonDependencies(
+      builder: (context) {
         return const LessonPage._();
       },
     );
@@ -32,20 +26,15 @@ class LessonPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.read<LessonController>();
+    final lessonBloc = BlocProvider.of<LessonBloc>(context, listen: false);
+    final lesson = ModalRoute.of(context)?.settings.arguments as Lesson?;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      controller.lesson = ModalRoute.of(context)?.settings.arguments as Lesson?;
+      lessonBloc.add(LessonSelected(lesson!));
     });
-    return Selector<LessonController, Lesson?>(
-      selector: (_, controller) => controller.lesson,
-      shouldRebuild: (previous, next) => next != null,
-      builder: (_, lesson, __) {
-        if (lesson == null) {
-          return const SizedBox.shrink();
-        }
-        return _BodyWithTerm(lesson: lesson);
-      },
-    );
+    if (lesson == null) {
+      return const SizedBox.shrink();
+    }
+    return _BodyWithTerm(lesson: lesson);
   }
 }
 
@@ -62,12 +51,12 @@ class _BodyWithTerm extends StatefulWidget {
 
 class _BodyWithTermState extends State<_BodyWithTerm>
     with TickerProviderStateMixin {
-  late LessonController controller;
+  // late LessonController controller;
   late PageController pageController;
 
   @override
   void initState() {
-    controller = context.read<LessonController>();
+    // controller = context.read<LessonController>();
     final lastTermCompletedIndex =
         widget.lesson.terms.lastIndexWhere((element) => element.completed);
     pageController = PageController(initialPage: lastTermCompletedIndex + 1);
@@ -77,7 +66,7 @@ class _BodyWithTermState extends State<_BodyWithTerm>
 
   init() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      controller.getTermsByLessonid(widget.lesson.id);
+      // controller.getTermsByLessonid(widget.lesson.id);
     });
   }
 
@@ -91,102 +80,127 @@ class _BodyWithTermState extends State<_BodyWithTerm>
     double progress = calc.isNaN ? 0 : calc * 100;
     final localization = AppLocalizations.of(context)!;
     final nroOfTerms = widget.lesson.terms.length;
-    return Selector<LessonController, bool>(
-        selector: (_, controller) => controller.isLoading,
-        shouldRebuild: (pre, next) {
-          final error = controller.error;
-          if (error != null) {
-            final snackbError = SnackBar(
-              content: Text(
-                error,
-                style: theme.textTheme.bodySmall
-                    ?.copyWith(color: theme.colorScheme.onError),
-              ),
-              backgroundColor: theme.colorScheme.error,
-            );
-            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-              ScaffoldMessenger.of(context).showSnackBar(snackbError);
-            });
-          }
-          return pre != next;
-        },
-        builder: (_, isLoading, __) {
-          return LoadingOverlay(
-            child: Scaffold(
-              appBar: AppBar(
-                title: Text(widget.lesson.name),
-                actions: [
-                  IconButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (_) {
-                            return ReportTermDialog(
-                              parentcontext: context,
-                            );
-                          });
-                    },
-                    icon: const Icon(
-                      FeatherIcons.alertTriangle,
-                    ),
-                  )
-                ],
-                bottom: PreferredSize(
-                  preferredSize: const Size(
-                      double.infinity, (DefaultTheme.padding * 2) + 5),
-                  child: Padding(
-                    padding: const EdgeInsets.all(DefaultTheme.padding),
-                    child: LinearProgressIndicator(
-                      value: progress / 100,
-                    ),
-                  ),
-                ),
-              ),
-              persistentFooterButtons: [
-                Selector<LessonController, bool>(
-                    selector: (_, controller) => controller.isLoading,
-                    shouldRebuild: (previous, next) => previous != next,
-                    builder: (_, isLoading, __) {
-                      return ElevateButtonAsyn(
-                        onPressed: () async {
-                          final navigator = Navigator.of(context);
-                          final currentIndex = pageController.page!.round();
-                          final normalizedIndex = currentIndex + 1;
-                          await controller.toComplete();
-                          if (controller.error != null) return;
-
-                          if (normalizedIndex < nroOfTerms) {
-                            pageController.nextPage(
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.bounceInOut,
-                            );
-                            return;
-                          }
-                          return navigator.pop();
-                        },
-                        isLoading: isLoading,
-                        label: Text(localization.lesson_page_btn_continue),
-                      );
-                    })
-              ],
-              body: Selector<LessonController, List<Term>>(
-                  selector: (_, controller) => controller.terms,
-                  builder: (_, terms, __) {
-                    if (terms.isEmpty) {
-                      return const Center(
-                        child: Text('there is not any term'),
-                      );
-                    }
-                    return PageView(
-                      controller: pageController,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: terms.map((e) => _TermView(term: e)).toList(),
+    // return Selector<LessonController, bool>(
+    //     selector: (_, controller) => controller.isLoading,
+    //     shouldRebuild: (pre, next) {
+    //       final error = controller.error;
+    //       if (error != null) {
+    //         final snackbError = SnackBar(
+    //           content: Text(
+    //             error,
+    //             style: theme.textTheme.bodySmall
+    //                 ?.copyWith(color: theme.colorScheme.onError),
+    //           ),
+    //           backgroundColor: theme.colorScheme.error,
+    //         );
+    //         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //           ScaffoldMessenger.of(context).showSnackBar(snackbError);
+    //         });
+    //       }
+    //       return pre != next;
+    //     },
+    //     builder: (_, ___, __) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.lesson.name),
+        actions: [
+          IconButton(
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (_) {
+                    return ReportTermDialog(
+                      parentcontext: context,
                     );
-                  }),
+                  });
+            },
+            icon: const Icon(
+              FeatherIcons.alertTriangle,
             ),
+          )
+        ],
+        bottom: PreferredSize(
+          preferredSize:
+              const Size(double.infinity, (DefaultTheme.padding * 2) + 5),
+          child: Padding(
+            padding: const EdgeInsets.all(DefaultTheme.padding),
+            child: LinearProgressIndicator(
+              value: progress / 100,
+            ),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: DefaultTheme.padding),
+        child: ElevateButtonAsyn(
+          onPressed: () {
+            final navigator = Navigator.of(context);
+            final currentIndex = pageController.page!.round();
+            final normalizedIndex = currentIndex + 1;
+            if (normalizedIndex < nroOfTerms) {
+              pageController.nextPage(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.bounceInOut,
+              );
+              return;
+            }
+            return navigator.pop();
+          },
+          isLoading: false,
+          label: Text(localization.lesson_page_btn_continue),
+        ),
+      ),
+      // persistentFooterButtons: [
+      //   // ElevateButtonAsyn(
+      //   //   onPressed: () async {
+      //   //     final navigator = Navigator.of(context);
+      //   //     final currentIndex = pageController.page!.round();
+      //   //     // final normalizedIndex = currentIndex + 1;
+      //   //     // await controller.toComplete();
+      //   //     // if (controller.error != null) return;
+
+      //   //     // if (normalizedIndex < nroOfTerms) {
+      //   //     //   pageController.nextPage(
+      //   //     //     duration: const Duration(milliseconds: 300),
+      //   //     //     curve: Curves.bounceInOut,
+      //   //     //   );
+      //   //     //   return;
+      //   //     // }
+      //   //     // return navigator.pop();
+      //   //   },
+      //   //   isLoading: true,
+      //   //   label: Text(localization.lesson_page_btn_continue),
+      //   // ),
+      //   ElevateButtonAsyn(
+      //     onPressed: () {
+      //       final navigator = Navigator.of(context);
+      //       final currentIndex = pageController.page!.round();
+      //       final normalizedIndex = currentIndex + 1;
+      //     },
+      //     isLoading: false,
+      //     label: Text(localization.lesson_page_btn_continue),
+      //   ),
+      // ],
+      body: BlocConsumer<LessonBloc, LessonState>(listener: (context, state) {
+        final overlay = LoadingOverlay.of(context);
+        if (state.status == LessonStatus.loading) return overlay.show();
+        return overlay.hide();
+      }, builder: (_, state) {
+        if (state.terms.isEmpty) {
+          return const Center(
+            child: Text('there is not any term'),
           );
-        });
+        }
+        return PageView(
+          controller: pageController,
+          physics: const NeverScrollableScrollPhysics(),
+          children: state.terms.map((e) => _TermView(term: e)).toList(),
+        );
+      }),
+    );
+    // });
   }
 }
 
@@ -199,7 +213,11 @@ class _TermView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<LessonController>().currentTermIndex = term.id;
+    final theme = Theme.of(context);
+    final containerDecoration = BoxDecoration(
+      borderRadius: BorderRadius.circular(DefaultTheme.borderRadius),
+      color: theme.primaryColor.withOpacity(.1),
+    );
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -212,11 +230,11 @@ class _TermView extends StatelessWidget {
             ),
             child: Container(
               padding: const EdgeInsets.all(DefaultTheme.padding * .5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(DefaultTheme.borderRadius),
-                color: Theme.of(context).primaryColor.withOpacity(.1),
+              decoration: containerDecoration,
+              child: Text(
+                term.title,
+                style: theme.textTheme.titleMedium,
               ),
-              child: Text(term.title),
             ),
           ),
           const SizedBox(
@@ -230,10 +248,7 @@ class _TermView extends StatelessWidget {
             ),
             child: Container(
               padding: const EdgeInsets.all(DefaultTheme.padding * .5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(DefaultTheme.borderRadius),
-                color: Theme.of(context).primaryColor.withOpacity(.1),
-              ),
+              decoration: containerDecoration,
               child: Text(term.content),
             ),
           )
